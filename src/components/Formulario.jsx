@@ -14,7 +14,7 @@ const Formulario = () => {
   const [objetoInsignia, setObjetoInsignia] = useState('')
   const [origen, setOrigen] = useState('')
   const [rol, setRol] = useState('')
-  const [imagen, setImagen] = React.useState("");
+  const [imagen, setImagen] = React.useState('');
   const texto_alt = 'Imagen de origen Picsum'
   const [listaPersonajes, setListaPersonajes] = useState([])
   const [modoEdicion, setModoEdicion] = useState(false)
@@ -35,8 +35,7 @@ const Formulario = () => {
 
   const obtenerImagen = async () => {
     try {
-      const res = await fetch('https://picsum.photos/200');
-      console.log(res.url)
+      const res = await fetch('https://picsum.photos/200');      
       return await res.url
     } catch (error) {
       console.log(error)
@@ -97,6 +96,7 @@ const Formulario = () => {
     setOrigen(item.origen)
     setRol(item.rol)
     setId(item.id)
+    setImagen(item.imagen)
     setModoEdicion(true)
   }
 
