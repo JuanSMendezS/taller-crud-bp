@@ -3,3 +3,4 @@ https://github.com/JuanSMendezS/taller-crud-bp
 Link Netlify
 https://spiffy-gnome-519733.netlify.app/
 Link Amplify
+https://main.d1tfzv0du6uhe8.amplifyapp.com/

@@ -14,6 +14,8 @@ const Formulario = () => {
   const [objetoInsignia, setObjetoInsignia] = useState('')
   const [origen, setOrigen] = useState('')
   const [rol, setRol] = useState('')
+  const [imagen, setImagen] = React.useState("");
+  const texto_alt = 'Imagen de origen Picsum'
   const [listaPersonajes, setListaPersonajes] = useState([])
   const [modoEdicion, setModoEdicion] = useState(false)
   const [id, setId] = useState('')
@@ -31,9 +33,20 @@ const Formulario = () => {
     obtenerDatos();
   }, [])
 
+  const obtenerImagen = async () => {
+    try {
+      const res = await fetch('https://picsum.photos/200');
+      console.log(res.url)
+      return await res.url
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const guardarPersonajes = async (e) => {
     e.preventDefault()
     try {
+      const imagen = await obtenerImagen()
       const data = await addDoc(collection(db, 'tbl_personajes'), {
         nombrePersonaje: personaje,
         nombreDescripcion: descripcion,
@@ -41,14 +54,15 @@ const Formulario = () => {
         objetoInsignia: objetoInsignia,
         edad: edad,
         rol: rol,
-        nota: nota
+        nota: nota,
+        imagen
       })
 
       setListaPersonajes([
         ...listaPersonajes,
         {
           nombrePersonaje: personaje, nombreDescripcion: descripcion, edad: edad, origen: origen,
-          rol: rol, objetoInsignia: objetoInsignia, nota: nota, id: data.id
+          rol: rol, objetoInsignia: objetoInsignia, nota: nota, imagen, id: data.id
         }
       ])
 
@@ -98,13 +112,14 @@ const Formulario = () => {
         objetoInsignia: objetoInsignia,
         edad: edad,
         rol: rol,
-        nota: nota
+        nota: nota,
+        imagen
       })
 
       const nuevoArray = listaPersonajes.map(
         item => item.id === id ? {
           id: id, nombrePersonaje: personaje, nombreDescripcion: descripcion, edad: edad, origen: origen,
-          rol: rol, objetoInsignia: objetoInsignia, nota: nota
+          rol: rol, objetoInsignia: objetoInsignia, nota: nota, imagen
         } : item
       )
 
@@ -145,6 +160,8 @@ const Formulario = () => {
             {
               listaPersonajes.map(item => (
                 <li className="list-group-item" key={item.id}>
+                  <img src={item.imagen} alt={texto_alt} />
+                  <hr />
                   <span className="lead"> {item.nombrePersonaje} - {item.nombreDescripcion} - {item.origen} -</span>
                   <span className="lead"> {item.objetoInsignia} - {item.edad} - {item.rol} -</span>
                   <span className="lead"> {item.nota} </span>
@@ -164,6 +181,7 @@ const Formulario = () => {
             }
           </h4>
           <form onSubmit={modoEdicion ? editarPersonajes : guardarPersonajes}>
+            
             <input type="text"
               className='form-control mb-2'
               placeholder='Ingrese Personaje'
