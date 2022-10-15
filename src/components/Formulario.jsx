@@ -2,7 +2,7 @@ import { db } from '../firebase'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { addDoc, collection, deleteDoc, onSnapshot, query, updateDoc } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc } from 'firebase/firestore'
 import { async } from '@firebase/util'
 
 const Formulario = () => {
@@ -37,10 +37,10 @@ const Formulario = () => {
       const data = await addDoc(collection(db, 'tbl_personajes'), {
         nombrePersonaje: personaje,
         nombreDescripcion: descripcion,
-        edad: edad,
         origen: origen,
-        rol: rol,
         objetoInsignia: objetoInsignia,
+        edad: edad,
+        rol: rol,
         nota: nota
       })
 
@@ -51,6 +51,16 @@ const Formulario = () => {
           rol: rol, objetoInsignia: objetoInsignia, nota: nota, id: data.id
         }
       ])
+
+      setPersonaje('')
+      setDescripcion('')
+      setEdad('')
+      setNota('')
+      setObjetoInsignia('')
+      setOrigen('')
+      setRol('')
+      setId('')
+
     } catch (error) {
       console.log(error)
     }
@@ -77,16 +87,17 @@ const Formulario = () => {
   }
 
   const editarPersonajes = async e => {
-    e.preventDefault();
+    e.preventDefault()
+
     try {
       const docRef = doc(db, 'tbl_personajes', id);
       await updateDoc(docRef, {
         nombrePersonaje: personaje,
         nombreDescripcion: descripcion,
-        edad: edad,
         origen: origen,
-        rol: rol,
         objetoInsignia: objetoInsignia,
+        edad: edad,
+        rol: rol,
         nota: nota
       })
 
@@ -98,15 +109,15 @@ const Formulario = () => {
       )
 
       setListaPersonajes(nuevoArray)
-      setPersonaje(' ')
-      setDescripcion(' ')
-      setEdad(' ')
-      setNota(' ')
-      setObjetoInsignia(' ')
-      setOrigen(' ')
-      setRol(' ')
-      setId(' ')
       setModoEdicion(false)
+      setPersonaje('')
+      setDescripcion('')
+      setEdad('')
+      setNota('')
+      setObjetoInsignia('')
+      setOrigen('')
+      setRol('')
+      setId('')
 
     } catch (error) {
       console.log(error)
@@ -115,14 +126,14 @@ const Formulario = () => {
 
   const cancelar = () => {
     setModoEdicion(false)
-    setPersonaje(' ')
-    setDescripcion(' ')
-    setEdad(' ')
-    setNota(' ')
-    setObjetoInsignia(' ')
-    setOrigen(' ')
-    setRol(' ')
-    setId(' ')
+    setPersonaje('')
+    setDescripcion('')
+    setEdad('')
+    setNota('')
+    setObjetoInsignia('')
+    setOrigen('')
+    setRol('')
+    setId('')
   }
 
   return (
@@ -134,13 +145,13 @@ const Formulario = () => {
             {
               listaPersonajes.map(item => (
                 <li className="list-group-item" key={item.id}>
-                  <span className="lead"> {item.nombrePersonaje} - {item.nombreDescripcion} - {item.origen} </span>
-                  <span className="lead"> {item.objetoInsignia} - {item.edad} - {item.rol} </span>
+                  <span className="lead"> {item.nombrePersonaje} - {item.nombreDescripcion} - {item.origen} -</span>
+                  <span className="lead"> {item.objetoInsignia} - {item.edad} - {item.rol} -</span>
                   <span className="lead"> {item.nota} </span>
                   <button className="btn btn-danger btn-sm float-end mx2"
-                    onClick={() => eliminar(item.id)}>eliminar</button>
+                    onClick={() => eliminar(item.id)}> Eliminar </button>
                   <button className="btn btn-warning btn-sm float-end"
-                    onClick={() => editar(item)}>Editar</button>
+                    onClick={() => editar(item)}> Editar </button>
                 </li>
               ))
             }
@@ -208,7 +219,7 @@ const Formulario = () => {
                   <>
                     <button
                       className="btn btn-warning btn-block"
-                      on='submit'>
+                      onClick={() => editarPersonajes(item.id)}>
                       Editar
                     </button>
                     <button className="btn btn-dark btn-block mx-2"
