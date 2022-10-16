@@ -2,8 +2,7 @@ import { db } from '../firebase'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc } from 'firebase/firestore'
-import { async } from '@firebase/util'
+import { addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc } from 'firebase/firestore'
 
 const Formulario = () => {
 
@@ -32,6 +31,8 @@ const Formulario = () => {
     }
     obtenerDatos();
   }, [])
+
+
 
   const obtenerImagen = async () => {
     try {
@@ -237,7 +238,7 @@ const Formulario = () => {
                   <>
                     <button
                       className="btn btn-warning btn-block"
-                      onClick={() => editarPersonajes(item.id)}>
+                      onClick={() => editarPersonajes(id)}>
                       Editar
                     </button>
                     <button className="btn btn-dark btn-block mx-2"
